@@ -2,12 +2,15 @@ black
 docker
 fastapi
 httpx
+psycopg2-binary
 pydantic
 pydantic-core
 pydantic-settings
 pytest
+pytest-cov
 python-dotenv
 requests
 responses
 respx
+sqlalchemy
 uvicorn
