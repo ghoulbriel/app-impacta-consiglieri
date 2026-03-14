@@ -1,0 +1,13 @@
+black
+docker
+fastapi
+httpx
+pydantic
+pydantic-core
+pydantic-settings
+pytest
+python-dotenv
+requests
+responses
+respx
+uvicorn
