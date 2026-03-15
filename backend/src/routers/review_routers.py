@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from src.domain.models.schemas import ReviewRequest, ReviewResponse
 from src.infrastructure.database.connection import get_db
 from src.infrastructure.database.repositories import SQLReviewRepository
 from src.usecases.create_review import CreateReviewUseCase
+
 
 router = APIRouter(prefix="/review", tags=["Review"])
 
