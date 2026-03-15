@@ -31,4 +31,7 @@
 	docker compose up --build´´´
 	
 4. Access the interactive API documentation (Swagger UI) at:
-http://127.0.0.1:8000/docs/
+http://localhost:8000/docs/
+
+5. Access the Consiglieri Website at:
+http://localhost:4200/
