@@ -8,6 +8,17 @@ export interface ReviewPayload {
   message: string;
 }
 
+export interface ReviewData {
+  created_at: string;
+  channel: string;
+  customer_name: string;
+  message: string;
+}
+
+export interface ReviewListResponse {
+  reviews: ReviewData[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +30,12 @@ export class ReviewService {
   createReview(review: ReviewPayload): Observable<HttpResponse<any>> {
     return this.http.post<any>(this.apiUrl, review, {
       observe: 'response'
+    });
+  }
+
+  getReviews(): Observable<ReviewListResponse> {
+    return this.http.get<any>(this.apiUrl, {
+      headers: { 'Accept': 'application/json'}
     });
   }
 }

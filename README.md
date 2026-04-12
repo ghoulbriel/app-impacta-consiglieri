@@ -1,7 +1,7 @@
 # app-impacta-consiglieri
 
 **Author:** Gabriel Moreira  
-**Version:** 0.1.5  
+**Version:** 0.2.0  
 
 **Description:** This repository is dedicated to the Graduation Project (TCC) at Faculdade Impacta. Consiglieri is a platform designed to collect and manage customer feedback for commercial establishments, leveraging Artificial Intelligence to generate detailed analyses and strategic reports.
 
@@ -14,6 +14,7 @@
 
 ## Implemented Features
 - **Create Review:** A feature that allows the user to register a new review containing the service channel, customer name, and feedback message. This information is stored in the PostgreSQL database, and a unique identifier (UUID) for the respective review is returned.
+- **List Reviews:** A feature that allows the user to view the history of all registered reviews fetched from the PostgreSQL database. The data is displayed in a paginated grid, sorted by the most recent dates, and includes dynamic filtering capabilities by customer name and service channel.
 
 ## How to Run Locally
 
