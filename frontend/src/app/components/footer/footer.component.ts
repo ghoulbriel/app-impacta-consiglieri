@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
       background-color: #002244;
       color: #ffffff;
       text-align: center;
-      padding: 1.3rem; /* Aumentado 30% verticalmente */
+      padding: 1.0rem; /* Aumentado 30% verticalmente */
       position: fixed;
       bottom: 0;
       width: 100%;
