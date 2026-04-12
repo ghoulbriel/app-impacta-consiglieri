@@ -51,7 +51,6 @@ import { ReviewService } from '../../services/review.service';
   `,
   styles: [`
     .container {
-      background-color: #ffffff;
       padding: 2rem;
       min-height: 80vh;
       display: flex;

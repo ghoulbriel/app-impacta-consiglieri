@@ -1,7 +1,7 @@
 # app-impacta-consiglieri
 
 **Author:** Gabriel Moreira  
-**Version:** 0.1.0  
+**Version:** 0.1.5  
 
 **Description:** This repository is dedicated to the Graduation Project (TCC) at Faculdade Impacta. Consiglieri is a platform designed to collect and manage customer feedback for commercial establishments, leveraging Artificial Intelligence to generate detailed analyses and strategic reports.
 

@@ -32,13 +32,13 @@ import { RouterLink } from '@angular/router';
   `,
   styles: [`
     .container {
-      background-color: #f4f6f8; /* Fundo cinza claro solicitado */
-      min-height: 80vh;
+      background-color: transparent;
+      min-height: calc(100vh - 74px);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem 2rem;
+      align-items: center;     
+      justify-content: flex-start;
+      padding: 6rem 2rem 3rem 2rem;
       box-sizing: border-box;
     }
     

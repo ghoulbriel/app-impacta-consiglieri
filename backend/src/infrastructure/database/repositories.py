@@ -1,6 +1,8 @@
+from typing import List
 from sqlalchemy.orm import Session
 from src.domain.repositories.review_repository import ReviewRepository
 from src.domain.models.entities import Review
+from src.domain.models.enums import ReviewChannelsEnum
 from src.infrastructure.database.models import ReviewORM
 
 class SQLReviewRepository(ReviewRepository):
@@ -18,3 +20,24 @@ class SQLReviewRepository(ReviewRepository):
         self.db_session.add(db_review)
         self.db_session.commit()
         return review
+    
+    def list(self) -> List[Review]:
+        db_reviews = self.db_session.query(
+            ReviewORM.created_at,
+            ReviewORM.channel,
+            ReviewORM.customer_name,
+            ReviewORM.review_message
+            ).all()
+        
+        reviews = []
+        
+        for db_review in db_reviews:
+            review = Review()
+            review.created_at = db_review.created_at
+            review.channel = db_review.channel
+            review.customer_name = db_review.customer_name
+            review.message = db_review.review_message
+            
+            reviews.append(review)
+            
+        return reviews
