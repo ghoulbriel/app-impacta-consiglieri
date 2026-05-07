@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from src.domain.models.schemas import ReviewRequest, ReviewResponse, ListReviewsResponse
@@ -6,6 +6,7 @@ from src.infrastructure.database.connection import get_db
 from src.infrastructure.database.repositories import SQLReviewRepository
 from src.usecases.create_review import CreateReviewUseCase
 from src.usecases.list_reviews import ListReviewsUseCase
+from src.usecases.delete_review import DeleteReviewUseCase
 
 
 router = APIRouter(prefix="/review", tags=["Review"])
@@ -21,3 +22,10 @@ def list_review(db: Session = Depends(get_db)):
     repository = SQLReviewRepository(db)
     usecase = ListReviewsUseCase(repository)
     return usecase.execute()
+
+@router.delete("/{review_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_review(review_id: str, db: Session = Depends(get_db)):
+    repository = SQLReviewRepository(db)
+    usecase = DeleteReviewUseCase(repository)
+    usecase.execute(review_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
