@@ -9,6 +9,7 @@ class SQLReviewRepository(ReviewRepository):
     def __init__(self, db_session: Session):
         self.db_session = db_session
 
+
     def save(self, review: Review) -> Review:
         db_review = ReviewORM(
             review_id=review.review_id,
@@ -20,6 +21,7 @@ class SQLReviewRepository(ReviewRepository):
         self.db_session.add(db_review)
         self.db_session.commit()
         return review
+    
     
     def list(self) -> List[Review]:
         db_reviews = self.db_session.query(
@@ -41,3 +43,12 @@ class SQLReviewRepository(ReviewRepository):
             reviews.append(review)
             
         return reviews
+    
+    
+    def delete(self, review_id: str) -> bool:
+        db_review = self.db_session.query(ReviewORM).filter(ReviewORM.review_id == review_id).first()
+        if db_review:
+            self.db_session.delete(db_review)
+            self.db_session.commit()
+            return True
+        return False
