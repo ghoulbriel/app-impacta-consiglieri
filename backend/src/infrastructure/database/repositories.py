@@ -25,6 +25,7 @@ class SQLReviewRepository(ReviewRepository):
     
     def list(self) -> List[Review]:
         db_reviews = self.db_session.query(
+            ReviewORM.review_id,
             ReviewORM.created_at,
             ReviewORM.channel,
             ReviewORM.customer_name,
@@ -35,6 +36,7 @@ class SQLReviewRepository(ReviewRepository):
         
         for db_review in db_reviews:
             review = Review()
+            review.review_id = db_review.review_id
             review.created_at = db_review.created_at
             review.channel = db_review.channel
             review.customer_name = db_review.customer_name

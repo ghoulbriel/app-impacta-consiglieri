@@ -13,6 +13,7 @@ class ListReviewsUseCase:
         
         for review in reviews_entities:
             review_response = GetReviewResponse(
+                review_id=review.review_id,
                 created_at=review.created_at,
                 channel=review.channel,
                 customer_name=review.customer_name,

@@ -9,6 +9,7 @@ export interface ReviewPayload {
 }
 
 export interface ReviewData {
+  review_id: string;
   created_at: string;
   channel: string;
   customer_name: string;
@@ -36,6 +37,13 @@ export class ReviewService {
   getReviews(): Observable<ReviewListResponse> {
     return this.http.get<any>(this.apiUrl, {
       headers: { 'Accept': 'application/json'}
+    });
+  }
+
+  deleteReview(reviewId: string): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(`${this.apiUrl}/${reviewId}`, {
+      headers: { 'Accept': 'application/json' },
+      observe: 'response'
     });
   }
 }
