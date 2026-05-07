@@ -40,6 +40,7 @@ import { ReviewService, ReviewData } from '../../services/review.service';
               <th>Canal</th>
               <th>Cliente</th>
               <th>Mensagem</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -48,9 +49,12 @@ import { ReviewService, ReviewData } from '../../services/review.service';
               <td><span class="channel-badge">{{ review.channel }}</span></td>
               <td>{{ review.customer_name }}</td>
               <td class="message-cell">{{ review.message }}</td>
+              <td>
+                <button type="button" class="btn-delete" (click)="openDeleteModal(review.review_id)">Excluir</button>
+              </td>
             </tr>
             <tr *ngIf="paginatedReviews.length === 0">
-              <td colspan="4" class="empty-state">Nenhum review encontrado.</td>
+              <td colspan="5" class="empty-state">Nenhum review encontrado.</td>
             </tr>
           </tbody>
         </table>
@@ -60,6 +64,17 @@ import { ReviewService, ReviewData } from '../../services/review.service';
         <button class="btn-secondary" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
         <span>Página {{ currentPage }} de {{ totalPages }}</span>
         <button class="btn-secondary" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Próxima</button>
+      </div>
+
+      <div *ngIf="showModal" class="modal-overlay">
+        <div class="modal-content">
+          <h3 class="modal-title">Consiglieri</h3>
+          <p>Tem certeza de que deseja excluir esta avaliação?</p>
+          <div class="modal-actions">
+            <button class="btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+            <button class="btn-primary" (click)="confirmDelete()">OK</button>
+          </div>
+        </div>
       </div>
     </main>
   `,
@@ -107,17 +122,22 @@ import { ReviewService, ReviewData } from '../../services/review.service';
       display: flex;
       gap: 0.5rem;
     }
-    .btn-primary, .btn-secondary {
-      padding: 0.75rem 1.5rem;
+    .btn-primary, .btn-secondary, .btn-delete {
       border: none;
       border-radius: 4px;
-      font-size: 1rem;
       cursor: pointer;
+    }
+    .btn-primary, .btn-secondary {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
     }
     .btn-primary { background-color: #003366; color: #ffffff; }
     .btn-primary:hover { background-color: #004080; }
     .btn-secondary { background-color: #f0f0f0; color: #333333; border: 1px solid #ccc; }
     .btn-secondary:hover { background-color: #e0e0e0; }
+    
+    .btn-delete { background-color: #003366; color: #ffffff; padding: 0.5rem 1rem; font-size: 0.9rem; }
+    .btn-delete:hover { background-color: #004080; }
 
     .table-container {
       width: 100%;
@@ -136,6 +156,7 @@ import { ReviewService, ReviewData } from '../../services/review.service';
     .minimal-table th, .minimal-table td {
       padding: 1rem;
       border-bottom: 1px solid #eeeeee;
+      vertical-align: middle;
     }
     .minimal-table th {
       background-color: #fafafa;
@@ -169,6 +190,33 @@ import { ReviewService, ReviewData } from '../../services/review.service';
       align-items: center;
       color: #333;
     }
+
+    /* Estilos do Modal de Exclusão */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex; justify-content: center; align-items: center;
+    }
+    .modal-content {
+      background: #ffffff; padding: 2rem; border-radius: 8px; text-align: center;
+      min-width: 350px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .modal-title {
+      color: #002244;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    .modal-content p {
+      color: #333333;
+      margin-bottom: 2rem;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
   `]
 })
 export class ListReviewsComponent implements OnInit {
@@ -179,6 +227,9 @@ export class ListReviewsComponent implements OnInit {
   
   currentPage = 1;
   itemsPerPage = 10;
+
+  showModal = false;
+  reviewIdToDelete: string | null = null;
 
   constructor(
     private fb: FormBuilder, 
@@ -232,12 +283,42 @@ export class ListReviewsComponent implements OnInit {
       return matchName && matchChannel;
     });
     
-    this.currentPage = 1;
+    const maxPages = Math.ceil(this.filteredReviews.length / this.itemsPerPage);
+    if (this.currentPage > maxPages) {
+      this.currentPage = maxPages > 0 ? maxPages : 1;
+    }
   }
 
   clearFilter() {
     this.filterForm.reset({ customer_name: '', channel: '' });
     this.applyFilter();
+  }
+
+  openDeleteModal(reviewId: string) {
+    if (!reviewId) return;
+    this.reviewIdToDelete = reviewId;
+    this.showModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showModal = false;
+    this.reviewIdToDelete = null;
+  }
+
+  confirmDelete() {
+    if (this.reviewIdToDelete) {
+      this.reviewService.deleteReview(this.reviewIdToDelete).subscribe({
+        next: () => {
+          this.loadReviews();
+          this.closeDeleteModal();
+        },
+        error: (err: any) => {
+          console.error('Erro ao excluir a avaliação', err);
+          alert('Não foi possível excluir a avaliação. Tente novamente mais tarde.');
+          this.closeDeleteModal();
+        }
+      });
+    }
   }
 
   get paginatedReviews(): ReviewData[] {

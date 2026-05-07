@@ -21,6 +21,7 @@ class ReviewResponse(BaseModel):
 
 class GetReviewResponse(BaseModel):
     """Base response class representing individual responses"""
+    review_id: str
     created_at: datetime
     channel: ReviewChannelsEnum
     customer_name: str
