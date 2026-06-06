@@ -24,7 +24,7 @@ import { RouterLink } from '@angular/router';
         </a>
 
         <a routerLink="/ai-report" class="card" title="Gere uma análise de sentimentos e dicas de melhoria.">
-          <h2>Relatório de IA</h2>
+          <h2>Relatório de Feedback</h2>
           <p>Gere uma análise de sentimentos e dicas de melhoria.</p>
         </a>
       </section>
