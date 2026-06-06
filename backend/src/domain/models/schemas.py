@@ -10,6 +10,7 @@ class ReviewRequest(BaseModel):
     customer_name: str = Field(..., max_length=100)
     message: str = Field(..., max_length=100)
     
+    
 class ReviewResponse(BaseModel):
     """Response for review creation. """
     
@@ -19,6 +20,7 @@ class ReviewResponse(BaseModel):
     customer_name: str
     message: str
 
+
 class GetReviewResponse(BaseModel):
     """Base response class representing individual responses"""
     review_id: str
@@ -27,6 +29,14 @@ class GetReviewResponse(BaseModel):
     customer_name: str
     message: str   
  
+ 
 class ListReviewsResponse(BaseModel):
     """Response containing a list of reviews."""
     reviews: List[GetReviewResponse] 
+    
+    
+class FeedbackReportResponse(BaseModel):
+    """Response containing the AI generated feedback report as structured lists."""
+    general_sentiment: str
+    positive_points: List[str]
+    negative_points: List[str]

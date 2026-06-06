@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.routers import review_routers
+from src.routers import review_routers, report_routers
 from src.infrastructure.database.connection import engine, Base
 from src.settings import settings
 
@@ -28,6 +28,7 @@ app.add_middleware(
 )
 
 app.include_router(review_routers.router)
+app.include_router(report_routers.router)
 
 if __name__ == "__main__":
     import uvicorn

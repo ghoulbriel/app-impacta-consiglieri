@@ -1,6 +1,7 @@
 black
 docker
 fastapi
+google-genai
 httpx
 psycopg2-binary
 pydantic
