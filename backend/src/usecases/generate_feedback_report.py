@@ -31,6 +31,7 @@ class GenerateFeedbackReportUseCase:
         prompt_positive = (
             "Analise os feedbacks e liste os principais pontos positivos destacados pelos clientes. "
             "Regra estrita: Retorne APENAS os pontos, um por linha. Não escreva frases introdutórias, "
+            "retorne no máximo os 7 pontos positivos de maior relevância, caso existam mais,"
             "não use conclusões e não adicione numeração ou marcadores no início das linhas."
         )
         raw_positive = self.ai_client.analyze_reviews(prompt_positive, reviews_text)
@@ -39,6 +40,7 @@ class GenerateFeedbackReportUseCase:
         prompt_negative = (
             "Analise os feedbacks e liste os principais pontos negativos destacados pelos clientes. "
             "Regra estrita: Retorne APENAS os pontos, um por linha. Não escreva frases introdutórias, "
+            "retorne no máximo os 7 pontos negativos de maior relevância, caso existam mais,"
             "não use conclusões e não adicione numeração ou marcadores no início das linhas."
         )
         raw_negative = self.ai_client.analyze_reviews(prompt_negative, reviews_text)
